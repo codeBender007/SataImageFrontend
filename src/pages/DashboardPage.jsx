@@ -3,14 +3,12 @@ import { useAuth } from '../contexts/AuthContext';
 import { getProductionLogs } from '../services/api';
 import FilterBar from '../components/dashboard/FilterBar';
 import EntryTable from '../components/dashboard/EntryTable';
-import UploadModal from '../components/upload/UploadModal';
-import { ClipboardList, Plus, TrendingUp, AlertTriangle, Activity, PackageCheck, Clock } from 'lucide-react';
+import { ClipboardList, TrendingUp, AlertTriangle, Activity, PackageCheck, Clock, Sparkles } from 'lucide-react';
 
 export default function DashboardPage() {
   const { user, isAdmin } = useAuth();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showUpload, setShowUpload] = useState(false);
   const [filters, setFilters] = useState({
     dateFrom: '', dateTo: '', shift: '', machineNo: '', search: '',
   });
@@ -31,6 +29,11 @@ export default function DashboardPage() {
 
   useEffect(() => { fetchLogs(); }, [filters, isAdmin]);
 
+  useEffect(() => {
+    window.addEventListener('production-log-submitted', fetchLogs);
+    return () => window.removeEventListener('production-log-submitted', fetchLogs);
+  }, [filters, isAdmin, user?.id]);
+
   // Summary stats
   const totalEntries = logs.length;
   const totalProd = logs.reduce((sum, l) => sum + (l.totalProduction || 0), 0);
@@ -43,32 +46,29 @@ export default function DashboardPage() {
   return (
     <div className="page-enter max-w-7xl mx-auto space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400">
+      <div className="overview-banner p-6 sm:p-8 text-slate-900 dark:text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 min-h-[202px]">
+        <div className="relative z-10">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-200/80 dark:border-indigo-300/20 bg-white/45 dark:bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-indigo-600 dark:text-indigo-200">
+            <Sparkles size={13} /> Operations overview
+          </div>
+          <h2 className="page-heading text-2xl sm:text-3xl font-bold flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-indigo-100 dark:bg-white/10 text-indigo-600 dark:text-white">
               <ClipboardList size={22} />
             </div>
             {isAdmin ? 'Production & TPM Dashboard' : 'My Production Logs'}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 dark:text-indigo-100/80 mt-2">
             {isAdmin ? 'Real-time overview of shop-floor forms, output, and TPM losses' : 'Track your uploaded production sheets and hourly output'}
           </p>
         </div>
 
-        <button
-          onClick={() => setShowUpload(true)}
-          className="btn-primary self-start sm:self-auto cursor-pointer"
-        >
-          <Plus size={18} />
-          <span>Upload New Sheet</span>
-        </button>
+        <div className="chart-art" aria-hidden="true"><div className="chart-donut" /><div className="chart-bars"><span/><span/><span/><span/><span/></div></div>
       </div>
 
       {/* KPI Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Total Entries */}
-        <div className="card p-5 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all duration-300">
+        <div className="kpi-card surface-glow">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Entries</span>
             <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
@@ -82,10 +82,11 @@ export default function DashboardPage() {
             </span>
           </div>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Submitted across all shifts</p>
+          <div className="metric-sparkline metric-sparkline-indigo" />
         </div>
 
         {/* Card 2: Total Production */}
-        <div className="card p-5 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300">
+        <div className="kpi-card kpi-card-emerald surface-glow">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Output</span>
             <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
@@ -99,10 +100,11 @@ export default function DashboardPage() {
             </span>
           </div>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Verified manufactured parts</p>
+          <div className="metric-sparkline metric-sparkline-emerald" />
         </div>
 
         {/* Card 3: Total Downtime / Loss */}
-        <div className="card p-5 hover:border-amber-300 dark:hover:border-amber-700 transition-all duration-300">
+        <div className="kpi-card kpi-card-amber surface-glow">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total TPM Loss</span>
             <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600 dark:text-amber-400">
@@ -119,10 +121,11 @@ export default function DashboardPage() {
             {totalLoss > 60 && <AlertTriangle size={12} className="text-red-500" />}
             Cumulative downtime recorded
           </p>
+          <div className="metric-sparkline metric-sparkline-amber" />
         </div>
 
         {/* Card 4: Efficiency */}
-        <div className="card p-5 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300">
+        <div className="kpi-card kpi-card-sky surface-glow">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Efficiency</span>
             <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-blue-600 dark:text-blue-400">
@@ -136,6 +139,7 @@ export default function DashboardPage() {
             </span>
           </div>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Target vs Actual Output ratio</p>
+          <div className="metric-sparkline metric-sparkline-sky" />
         </div>
       </div>
 
@@ -145,26 +149,6 @@ export default function DashboardPage() {
       {/* Main Entry Table */}
       <EntryTable logs={logs} loading={loading} />
 
-      {/* FAB Floating Mobile Action Button */}
-      <button
-        onClick={() => setShowUpload(true)}
-        className="fab group"
-        title="Upload Production Form Image"
-      >
-        <Plus size={22} className="group-hover:rotate-90 transition-transform duration-300" />
-        <span className="hidden sm:inline">Upload Form Image</span>
-      </button>
-
-      {/* Upload Modal */}
-      {showUpload && (
-        <UploadModal
-          onClose={() => setShowUpload(false)}
-          onSubmitted={() => {
-            setShowUpload(false);
-            fetchLogs();
-          }}
-        />
-      )}
     </div>
   );
 }

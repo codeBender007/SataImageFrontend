@@ -3,18 +3,22 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import Sidebar from './Sidebar';
-import { Menu, LogOut, Shield, User, Sun, Moon } from 'lucide-react';
+import UploadModal from '../upload/UploadModal';
+import ToolHandoverUploadModal from '../upload/ToolHandoverUploadModal';
+import { Menu, LogOut, Shield, User, Sun, Moon, Bell } from 'lucide-react';
 
 export default function AppLayout() {
   const { user, logout, isAdmin } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
+  const [showToolHandoverUpload, setShowToolHandoverUpload] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
+    <div className="app-shell bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
       {/* ── TOP HEADER ─────────────────────────────────────── */}
-      <header className="sticky top-0 z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-300">
-        <div className="flex items-center justify-between px-4 lg:px-6 h-16">
+      <header className="sticky top-0 z-20 bg-white/80 dark:bg-slate-950/75 backdrop-blur-2xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_3px_16px_rgba(15,23,42,.04)] transition-colors duration-300">
+        <div className="flex items-center justify-between px-4 lg:px-8 h-[74px]">
           {/* Left: hamburger + brand */}
           <div className="flex items-center gap-3">
             <button
@@ -24,18 +28,22 @@ export default function AppLayout() {
               <Menu size={20} />
             </button>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-indigo-700 flex items-center justify-center shadow-md shadow-indigo-500/20">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-500 via-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 ring-1 ring-indigo-300/30">
                 <span className="font-extrabold text-white text-base tracking-wider">SV</span>
               </div>
-              <div className="hidden sm:block border-l border-slate-200 dark:border-slate-800 pl-3">
-                <h1 className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-tight">Production &amp; TPM Tracker</h1>
-                <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold uppercase tracking-wider">Sata Vikas India Pvt Ltd</p>
+              <div className="hidden sm:block pl-1">
+                <h1 className="text-[15px] font-bold text-slate-900 dark:text-slate-100 leading-tight">Production &amp; TPM Tracker</h1>
+                <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-[0.12em] mt-1">Sata Vikas India Pvt Ltd</p>
               </div>
             </div>
           </div>
 
           {/* Right: theme toggle + user info + logout */}
           <div className="flex items-center gap-3">
+            <button className="hidden sm:grid relative h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:-translate-y-0.5 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300" title="Notifications">
+              <Bell size={17} />
+              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-800" />
+            </button>
             {/* Theme Switcher Button */}
             <button
               onClick={toggleTheme}
@@ -56,7 +64,7 @@ export default function AppLayout() {
             </button>
 
             {/* User Profile Pill */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700/80 shadow-sm">
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600 to-violet-700 flex items-center justify-center text-white shadow-sm">
                 {isAdmin ? <Shield size={13} /> : <User size={13} />}
               </div>
@@ -83,11 +91,34 @@ export default function AppLayout() {
 
       {/* ── BODY: SIDEBAR + MAIN ──────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 bg-slate-50/50 dark:bg-slate-950/50">
+        <Sidebar
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          onUpload={() => setShowUpload(true)}
+          onToolHandoverUpload={() => setShowToolHandoverUpload(true)}
+        />
+        <main className="flex-1 overflow-y-auto p-4 lg:p-7 bg-slate-50/35 dark:bg-slate-950/25">
           <Outlet />
         </main>
       </div>
+      {showUpload && (
+        <UploadModal
+          onClose={() => setShowUpload(false)}
+          onSubmitted={() => {
+            setShowUpload(false);
+            window.dispatchEvent(new Event('production-log-submitted'));
+          }}
+        />
+      )}
+      {showToolHandoverUpload && (
+        <ToolHandoverUploadModal
+          onClose={() => setShowToolHandoverUpload(false)}
+          onSubmitted={() => {
+            setShowToolHandoverUpload(false);
+            window.dispatchEvent(new Event('production-log-submitted'));
+          }}
+        />
+      )}
     </div>
   );
 }
