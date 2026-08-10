@@ -1,14 +1,14 @@
 const HR_KEYS = ['hr1', 'hr2', 'hr3', 'hr4', 'hr5', 'hr6', 'hr7', 'hr8', 'hr9'];
 
 const GROUP_COLORS = {
-  'Breakdown (BD)': { bg: 'bg-red-50/40', label: 'bg-red-100 text-red-800', border: 'border-l-red-400' },
-  'Set up (ST)': { bg: 'bg-orange-50/40', label: 'bg-orange-100 text-orange-800', border: 'border-l-orange-400' },
-  'Start up (SU)': { bg: 'bg-amber-50/40', label: 'bg-amber-100 text-amber-800', border: 'border-l-amber-400' },
-  'Speed loss (MS)': { bg: 'bg-yellow-50/40', label: 'bg-yellow-100 text-yellow-800', border: 'border-l-yellow-400' },
-  'Waiting (ML)': { bg: 'bg-blue-50/40', label: 'bg-blue-100 text-blue-800', border: 'border-l-blue-400' },
-  'Delay (DL)': { bg: 'bg-purple-50/40', label: 'bg-purple-100 text-purple-800', border: 'border-l-purple-400' },
-  'Oth.Loss (OL)': { bg: 'bg-slate-50/40', label: 'bg-slate-200 text-slate-700', border: 'border-l-slate-400' },
-  'Pl.Loss (PL)': { bg: 'bg-teal-50/40', label: 'bg-teal-100 text-teal-800', border: 'border-l-teal-400' },
+  'Breakdown (BD)': { bg: 'bg-red-50/40 dark:bg-red-950/30', label: 'bg-red-100 dark:bg-red-900/60 text-red-800 dark:text-red-200', border: 'border-l-red-500' },
+  'Set up (ST)': { bg: 'bg-orange-50/40 dark:bg-orange-950/30', label: 'bg-orange-100 dark:bg-orange-900/60 text-orange-800 dark:text-orange-200', border: 'border-l-orange-500' },
+  'Start up (SU)': { bg: 'bg-amber-50/40 dark:bg-amber-950/30', label: 'bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200', border: 'border-l-amber-500' },
+  'Speed loss (MS)': { bg: 'bg-yellow-50/40 dark:bg-yellow-950/30', label: 'bg-yellow-100 dark:bg-yellow-900/60 text-yellow-800 dark:text-yellow-200', border: 'border-l-yellow-500' },
+  'Waiting (ML)': { bg: 'bg-blue-50/40 dark:bg-blue-950/30', label: 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-200', border: 'border-l-blue-500' },
+  'Delay (DL)': { bg: 'bg-purple-50/40 dark:bg-purple-950/30', label: 'bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-200', border: 'border-l-purple-500' },
+  'Oth.Loss (OL)': { bg: 'bg-slate-50/40 dark:bg-slate-900/30', label: 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300', border: 'border-l-slate-400' },
+  'Pl.Loss (PL)': { bg: 'bg-teal-50/40 dark:bg-teal-950/30', label: 'bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-teal-200', border: 'border-l-teal-500' },
 };
 
 export default function TPMLossGrid({ data, editable, onChange }) {
@@ -48,11 +48,11 @@ export default function TPMLossGrid({ data, editable, onChange }) {
     <>
       {/* TPM Header */}
       <tr>
-        <td className="border border-slate-400 bg-slate-800 text-white font-bold text-[11px] px-2 py-1.5" colSpan={2}>
+        <td className="border border-slate-400 dark:border-slate-600 bg-slate-800 dark:bg-slate-950 text-white font-bold text-[11px] px-2 py-1.5" colSpan={2}>
           TPM 16 Loss entry :
         </td>
-        <td className="border border-slate-400 bg-slate-800 text-center" colSpan={10}>
-          <span className="text-[10px] text-amber-300 font-medium">
+        <td className="border border-slate-400 dark:border-slate-600 bg-slate-800 dark:bg-slate-950 text-center" colSpan={10}>
+          <span className="text-[10px] text-amber-300 font-semibold">
             {'<<<Enter Loss time in Minute only & write machine number>>>'}
           </span>
         </td>
@@ -75,7 +75,7 @@ export default function TPMLossGrid({ data, editable, onChange }) {
                     {group.name}
                   </span>
                 )}
-                <span className="truncate">{loss.description}</span>
+                <span className="truncate text-slate-800 dark:text-slate-200">{loss.description}</span>
               </div>
             </td>
             {/* Hourly cells */}
@@ -89,7 +89,7 @@ export default function TPMLossGrid({ data, editable, onChange }) {
                     className="form-cell-input"
                   />
                 ) : (
-                  <span className={`text-xs ${loss.hourlyValues?.[hr] ? 'font-semibold text-red-700' : ''}`}>
+                  <span className={`text-xs ${loss.hourlyValues?.[hr] ? 'font-bold text-red-600 dark:text-red-400' : 'text-slate-700 dark:text-slate-300'}`}>
                     {loss.hourlyValues?.[hr] || ''}
                   </span>
                 )}
@@ -103,19 +103,20 @@ export default function TPMLossGrid({ data, editable, onChange }) {
 
       {/* TOTAL LOSSES ROW */}
       <tr>
-        <td className="border border-slate-400 bg-red-100 font-bold text-[11px] px-2 py-1.5 text-red-900" colSpan={2}>
+        <td className="border border-slate-400 dark:border-slate-600 bg-red-100 dark:bg-red-950 font-extrabold text-[11px] px-2 py-1.5 text-red-900 dark:text-red-200" colSpan={2}>
           TOTAL LOSSES :
         </td>
         {HR_KEYS.map(hr => (
-          <td key={hr} className="form-cell bg-red-50 font-bold text-red-800 text-xs">
+          <td key={hr} className="form-cell bg-red-50 dark:bg-red-950/60 font-bold text-red-800 dark:text-red-300 text-xs">
             {hourTotals[hr] > 0 ? hourTotals[hr] : ''}
           </td>
         ))}
-        <td className="form-cell bg-red-100 font-bold text-red-900 text-sm">
+        <td className="form-cell bg-red-100 dark:bg-red-900 font-extrabold text-red-900 dark:text-red-100 text-sm">
           {grandTotal > 0 ? `${grandTotal}` : '0'}
-          <span className="text-[9px] text-red-600 ml-0.5">Min</span>
+          <span className="text-[9px] text-red-600 dark:text-red-300 ml-0.5">Min</span>
         </td>
       </tr>
     </>
   );
 }
+

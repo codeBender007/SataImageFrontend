@@ -43,24 +43,24 @@ export default function UserModal({ user, onClose, onSave }) {
     <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="modal-content w-full max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200">
-          <h3 className="text-sm font-bold text-slate-800">
-            {isEdit ? 'Edit User' : 'Add New User'}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+            {isEdit ? 'Edit User Profile' : 'Create New User Account'}
           </h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+          <button onClick={onClose} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer">
             <X size={18} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
             <label className="label">Username</label>
             <input
               type="text"
               value={form.username}
               onChange={(e) => setForm({ ...form, username: e.target.value })}
-              className="input"
+              className="input disabled:opacity-60"
               placeholder="e.g. operator1"
               required
               disabled={isEdit}
@@ -130,7 +130,7 @@ export default function UserModal({ user, onClose, onSave }) {
           )}
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-2 pt-2">
+          <div className="flex items-center justify-end gap-2.5 pt-3">
             <button type="button" onClick={onClose} className="btn-secondary cursor-pointer">Cancel</button>
             <button type="submit" disabled={saving} className="btn-primary cursor-pointer">
               {saving ? (
@@ -148,3 +148,4 @@ export default function UserModal({ user, onClose, onSave }) {
     </div>
   );
 }
+
