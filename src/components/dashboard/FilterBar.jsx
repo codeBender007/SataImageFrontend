@@ -1,19 +1,25 @@
 import { useState } from 'react';
+import { useSearch } from '../../contexts/SearchContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Search, Calendar, SlidersHorizontal, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function FilterBar({ filters, setFilters }) {
   const { isAdmin } = useAuth();
+  const { setSearch } = useSearch();
   const [mobileExpanded, setMobileExpanded] = useState(false);
 
   if (!isAdmin) return null;
 
   const updateFilter = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
+    if (key === 'search') {
+      setSearch(value);
+    }
   };
 
   const clearFilters = () => {
     setFilters({ dateFrom: '', dateTo: '', shift: '', machineNo: '', search: '' });
+    setSearch('');
   };
 
   const hasActiveFilters = Object.values(filters).some(v => v !== '');

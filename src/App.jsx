@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { SearchProvider } from './contexts/SearchContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -7,41 +8,41 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import FormViewPage from './pages/FormViewPage';
 import UsersPage from './pages/UsersPage';
+import ToolHandoverViewPage from './pages/ToolHandoverViewPage';
 
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public Route */}
-          <Route path="/login" element={<LoginPage />} />
+        <SearchProvider>
 
-          {/* Protected Routes inside AppLayout */}
-          <Route
-            element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/form/:id" element={<FormViewPage />} />
-            <Route
-              path="/users"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <UsersPage />
+          <BrowserRouter>
+            <Routes>
+              {/* Public Route */}
+              <Route path="/login" element={<LoginPage />} />
+
+              {/* Protected Routes inside AppLayout */}
+              <Route element={
+                <ProtectedRoute>
+                  <AppLayout />
                 </ProtectedRoute>
-              }
-            />
-          </Route>
+              }>
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/form/:id" element={<FormViewPage />} />
+                <Route path="/tool-handover/:id" element={<ToolHandoverViewPage />} />
+                <Route path="/users" element={
+                  <ProtectedRoute requiredRole="admin">
+                    <UsersPage />
+                  </ProtectedRoute>
+                } />
+              </Route>
 
-          {/* Catch-all redirect */}
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  </ThemeProvider>
+              {/* Catch-all redirect */}
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </SearchProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

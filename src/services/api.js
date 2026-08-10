@@ -115,6 +115,28 @@ export async function submitProductionLog(data) {
   return newLog;
 }
 
+// ─── TOOL & SHIFT HANDOVER FORMS ────────────────────────────────────────────
+export async function submitToolHandoverForm(data) {
+  if (!USE_MOCK_FALLBACK) {
+    const res = await apiClient.post('/tool-handover-forms', data);
+    return res.data;
+  }
+
+  await delay(500);
+  const newForm = {
+    ...data,
+    id: 2000 + mockProductionLogs.length + 1,
+    formType: 'tool-handover',
+    qaCell: '',
+    partNo1: 'Tool & Handover',
+    partNo2: '',
+    totalProduction: 0,
+    totalLossMin: 0,
+  };
+  mockProductionLogs.unshift(newForm);
+  return newForm;
+}
+
 export async function updateProductionLog(id, data) {
   if (!USE_MOCK_FALLBACK) {
     try {

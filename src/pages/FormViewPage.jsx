@@ -75,14 +75,14 @@ export default function FormViewPage() {
   return (
     <div className="page-enter max-w-7xl mx-auto space-y-4">
       {/* Header bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+      <div className="card flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5 mb-2">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/dashboard')} className="btn-ghost !px-2.5 cursor-pointer" title="Back">
             <ArrowLeft size={20} />
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">Production Sheet #{id}</h2>
+              <h2 className="page-heading text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">Production Sheet #{id}</h2>
               {saveSuccess && (
                 <span className="inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-200 dark:border-emerald-800 animate-fade-in">
                   <CheckCircle size={13} /> Saved Successfully
