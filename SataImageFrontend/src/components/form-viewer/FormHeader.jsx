@@ -16,7 +16,7 @@ export default function FormHeader({ data, editable, onChange }) {
         style={{ width: width || '100%' }}
       />
     ) : (
-      <span className="text-xs font-semibold text-slate-900 dark:text-slate-100">{value || '—'}</span>
+      <span className="text-xs font-medium text-slate-900">{value || '—'}</span>
     )
   );
 
