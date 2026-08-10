@@ -24,7 +24,7 @@ export default function FormHeader({ data, editable, onChange }) {
 
   return (
     <>
-      {/* Row 1: Company + Title + Date + Shift */}
+      {/* Row 1: Company + Title + Date */}
       <tr>
         <td className="form-cell-header text-left px-2" colSpan={2}>
           <div className="flex items-center gap-1.5 mb-1">
@@ -36,7 +36,7 @@ export default function FormHeader({ data, editable, onChange }) {
           </div>
           <div className="font-bold text-[10px] text-slate-800">SATA VIKAS INDIA PVT LTD, PALWAL</div>
         </td>
-        <td className="form-cell-header text-center font-bold text-sm text-indigo-800" colSpan={6}>
+        <td className="form-cell-header text-center font-bold text-sm text-indigo-800" colSpan={8}>
           Hourly Production Monitoring Book
         </td>
         <td className="form-cell-header" colSpan={2}>
@@ -45,15 +45,9 @@ export default function FormHeader({ data, editable, onChange }) {
             <Cell value={data.date} field="date" />
           </div>
         </td>
-        <td className="form-cell" colSpan={2}>
-          <div className="flex items-center gap-1 text-[10px]">
-            <span className="text-slate-500">Shift:</span>
-            <Cell value={data.shift} field="shift" />
-          </div>
-        </td>
       </tr>
 
-      {/* Row 2: Operation Number slots */}
+      {/* Row 2: Operation Number slots + PDI / Shift */}
       <tr>
         <td className="form-label-cell" colSpan={2}>
           <span className="text-slate-600">Operation Number :</span>
@@ -63,21 +57,29 @@ export default function FormHeader({ data, editable, onChange }) {
             <div className="text-[9px] text-slate-400 leading-none">{slot}</div>
           </td>
         ))}
-        <td className="form-cell bg-blue-50 font-semibold text-[10px] text-blue-700">PDI</td>
+        <td className="form-cell bg-blue-50 px-1" colSpan={1}>
+          <div className="grid grid-cols-2 items-center gap-1 text-[10px]">
+            <span className="font-semibold text-blue-700">PDI</span>
+            <div className="flex items-center gap-1 border-l border-slate-300 pl-1">
+              <span className="text-slate-500">Shift:</span>
+              <Cell value={data.shift} field="shift" />
+            </div>
+          </div>
+        </td>
       </tr>
 
-      {/* Row 3: Machine No + QA + Cell */}
+      {/* Row 3: Machine No + QA / Cell */}
       <tr>
         <td className="form-label-cell" colSpan={2}>Machine No :</td>
-        <td className="form-cell" colSpan={6}>
+        <td className="form-cell" colSpan={8}>
           <Cell value={data.machineNo} field="machineNo" />
         </td>
-        <td className="form-cell" colSpan={2}>
+        <td className="form-cell" colSpan={1}>
           <div className="flex items-center gap-1 text-[10px]">
             <span className="text-slate-500 font-medium">QA</span>
           </div>
         </td>
-        <td className="form-cell" colSpan={2}>
+        <td className="form-cell" colSpan={1}>
           <div className="flex items-center gap-1 text-[10px]">
             <span className="text-slate-500">Cell:</span>
             <Cell value={data.qaCell} field="qaCell" />
@@ -88,14 +90,12 @@ export default function FormHeader({ data, editable, onChange }) {
       {/* Row 4: Employee Number + Part */}
       <tr>
         <td className="form-label-cell" colSpan={2}>Employee number :</td>
-        <td className="form-cell" colSpan={7}>
+        <td className="form-cell" colSpan={8}>
           <Cell value={data.employeeNumbers} field="employeeNumbers" placeholder="E-XXXX, E-XXXX" />
         </td>
-        <td className="form-cell" colSpan={3}>
-          <div className="flex items-center gap-1 text-[10px]">
-            <span className="text-slate-500">Part:</span>
-            <Cell value={data.partNo1} field="partNo1" />
-          </div>
+        <td className="form-cell text-[10px] text-slate-500" colSpan={1}>Part:</td>
+        <td className="form-cell" colSpan={1}>
+          <Cell value={data.partNo1} field="partNo1" />
         </td>
       </tr>
 
