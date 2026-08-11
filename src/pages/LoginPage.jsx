@@ -70,8 +70,8 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md animate-slide-up my-8">
         {/* Logo Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3.5 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-indigo-700 text-white shadow-2xl shadow-indigo-500/30 mb-4 border border-indigo-400/30">
-            <span className="font-extrabold text-2xl tracking-wider">SATA VIKAS</span>
+          <div className="inline-flex items-center justify-center rounded-2xl bg-white p-3 shadow-2xl shadow-indigo-500/30 mb-4 border border-white/50">
+            <img src="/sata-vikas-logo.svg" alt="Sata Vikas" className="h-12 w-auto" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Production &amp; TPM Tracker</h1>
           <p className="text-xs sm:text-sm text-indigo-300 font-medium mt-1">Sata Vikas India Pvt Ltd · Palwal Plant</p>

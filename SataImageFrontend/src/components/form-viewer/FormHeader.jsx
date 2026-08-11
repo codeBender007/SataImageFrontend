@@ -1,5 +1,3 @@
-import { OP_SLOTS } from '../../types/models';
-
 export default function FormHeader({ data, editable, onChange }) {
   const update = (field, value) => {
     if (onChange) onChange({ ...data, [field]: value });

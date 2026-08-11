@@ -22,10 +22,10 @@ export default function Sidebar({ open, onClose, onUpload, onToolHandoverUpload 
         className={`fixed top-0 left-0 z-40 h-full w-[296px] bg-white/85 dark:bg-slate-950/80 border-r border-slate-200 dark:border-slate-800/80 shadow-xl backdrop-blur-2xl
                      flex flex-col justify-between
                      transform transition-transform duration-300 ease-in-out
-                     lg:translate-x-0 lg:static lg:shadow-none lg:z-10
+                     lg:fixed lg:top-[74px] lg:left-0 lg:h-[calc(100vh-74px)] lg:translate-x-0 lg:shadow-none lg:z-10
                      ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <div className="flex-1 flex flex-col overflow-y-auto">
+        <div className="flex flex-col">
           {/* Mobile header close button */}
           <div className="flex items-center justify-between p-4 lg:hidden border-b border-slate-100 dark:border-slate-800 shrink-0">
             <span className="font-semibold text-slate-800 dark:text-slate-200">Menu</span>
@@ -55,30 +55,6 @@ export default function Sidebar({ open, onClose, onUpload, onToolHandoverUpload 
             ))}
           </nav>
 
-          <div className="px-5 pb-5">
-            <button
-              type="button"
-              onClick={() => { onUpload?.(); onClose?.(); }}
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:from-indigo-500 hover:to-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950"
-            >
-              <Upload size={18} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
-              Upload Form Photo
-            </button>
-            <p className="mt-2 px-1 text-center text-[11px] leading-4 text-slate-400 dark:text-slate-500">
-              Import a completed production sheet for verification.
-            </p>
-            <button
-              type="button"
-              onClick={() => { onToolHandoverUpload?.(); onClose?.(); }}
-              className="group mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm font-semibold text-violet-700 transition-all hover:-translate-y-0.5 hover:bg-violet-100 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:border-violet-800 dark:bg-violet-950/40 dark:text-violet-300 dark:hover:bg-violet-950/70 dark:focus:ring-offset-slate-950"
-            >
-              <ClipboardPenLine size={18} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
-              Upload Tool &amp; Handover Form
-            </button>
-            <p className="mt-2 px-1 text-center text-[11px] leading-4 text-slate-400 dark:text-slate-500">
-              Import the separate tool, EOP/FOP, and shift handover sheet.
-            </p>
-          </div>
         </div>
 
         {/* Bottom status badge */}
@@ -99,6 +75,24 @@ export default function Sidebar({ open, onClose, onUpload, onToolHandoverUpload 
             </div>
             <h3 className="relative z-10 text-sm font-bold text-slate-900 dark:text-white">Stay Organized</h3>
             <p className="relative z-10 mt-2 text-xs leading-5 text-slate-500 dark:text-slate-300">Upload production sheets and track output efficiency in real time.</p>
+          </div>
+          <div className="space-y-3 border-t border-slate-100 pt-4 dark:border-slate-800/80">
+            <button
+              type="button"
+              onClick={() => { onUpload?.(); onClose?.(); }}
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:from-indigo-500 hover:to-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950"
+            >
+              <Upload size={18} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+              Upload Form Photo
+            </button>
+            <button
+              type="button"
+              onClick={() => { onToolHandoverUpload?.(); onClose?.(); }}
+              className="group flex w-full items-center justify-center gap-2 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm font-semibold text-violet-700 transition-all hover:-translate-y-0.5 hover:bg-violet-100 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:border-violet-800 dark:bg-violet-950/40 dark:text-violet-300 dark:hover:bg-violet-950/70 dark:focus:ring-offset-slate-950"
+            >
+              <ClipboardPenLine size={18} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+              Upload Tool &amp; Handover Form
+            </button>
           </div>
         </div>
       </aside>
