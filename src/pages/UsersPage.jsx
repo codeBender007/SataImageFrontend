@@ -3,7 +3,7 @@ import { useSearch } from '../contexts/SearchContext';
 import { getUsers, createUser, updateUser, deleteUser } from '../services/api';
 import UserTable from '../components/users/UserTable';
 import UserModal from '../components/users/UserModal';
-import { Users, UserPlus, Shield, UserCheck, UserX } from 'lucide-react';
+import { Users, UserPlus, Shield, UserCheck } from 'lucide-react';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -86,7 +86,7 @@ return (
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="kpi-card p-4 min-h-[128px] hover:border-indigo-300 dark:hover:border-indigo-700">
+        <div className="kpi-card p-3 min-h-[96px] hover:border-indigo-300 dark:hover:border-indigo-700">
           <div className="flex items-center justify-between text-slate-400 mb-1">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Users</span>
             <Users size={16} className="text-indigo-500" />
@@ -94,7 +94,7 @@ return (
           <p className="text-2xl font-extrabold text-slate-900 dark:text-slate-100">{users.length}</p>
         </div>
 
-        <div className="kpi-card kpi-card-emerald p-4 min-h-[128px] hover:border-emerald-300 dark:hover:border-emerald-700">
+        <div className="kpi-card kpi-card-emerald p-3 min-h-[96px] hover:border-emerald-300 dark:hover:border-emerald-700">
           <div className="flex items-center justify-between text-slate-400 mb-1">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Active</span>
             <UserCheck size={16} className="text-emerald-500" />
@@ -102,7 +102,7 @@ return (
           <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{users.filter(u => u.status === 'active').length}</p>
         </div>
 
-        <div className="kpi-card kpi-card-sky p-4 min-h-[128px] hover:border-indigo-300 dark:hover:border-indigo-700">
+        <div className="kpi-card kpi-card-sky p-3 min-h-[96px] hover:border-indigo-300 dark:hover:border-indigo-700">
           <div className="flex items-center justify-between text-slate-400 mb-1">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Admins</span>
             <Shield size={16} className="text-indigo-500" />
@@ -110,7 +110,7 @@ return (
           <p className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">{users.filter(u => u.role === 'admin').length}</p>
         </div>
 
-        <div className="kpi-card p-4 min-h-[128px] hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+        <div className="kpi-card p-3 min-h-[96px] hover:border-slate-300 dark:hover:border-slate-700 transition-all">
           <div className="flex items-center justify-between text-slate-400 mb-1">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Operators</span>
             <Users size={16} className="text-slate-400" />

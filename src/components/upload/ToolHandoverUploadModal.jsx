@@ -8,9 +8,11 @@ const blankRecord = () => ({
   toolDescription: '',
   operationNo: '',
   machineNo: '',
-  reasonForEOP: '',
-  eop: '',
-  fop: '',
+  toolNo: '',
+  time: '',
+  reasonForFOP: '',
+  fopParts: '',
+  fopRejection: '',
   toolSetBy: '',
   handoverCheck: '',
   defect: '',
@@ -22,7 +24,7 @@ export default function ToolHandoverUploadModal({ onClose, onSubmitted }) {
   const { user } = useAuth();
   const inputRef = useRef(null);
   const [step, setStep] = useState('upload');
-  const [records, setRecords] = useState(Array.from({ length: 9 }, blankRecord));
+  const [records, setRecords] = useState(Array.from({ length: 16 }, blankRecord));
   const [details, setDetails] = useState({ problemAnalysis: '', rootCause: '', action: '', shiftCommunication: '', supervisor: '' });
 
   const chooseFile = (file) => {

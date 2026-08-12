@@ -9,7 +9,6 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const fileRef = useRef(null);
   const [step, setStep] = useState('upload'); // 'upload' | 'processing' | 'verify'
   const [imageUrl, setImageUrl] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -17,7 +16,6 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const handleFile = async (file) => {
     if (!file) return;
     const url = URL.createObjectURL(file);
-    setImageFile(file);
     setImageUrl(url);
     setStep('processing');
 
@@ -43,7 +41,6 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const handleReupload = () => {
     setStep('upload');
     setImageUrl(null);
-    setImageFile(null);
     setFormData(null);
   };
 

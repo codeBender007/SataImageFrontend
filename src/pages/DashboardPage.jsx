@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getProductionLogs } from '../services/api';
 import FilterBar from '../components/dashboard/FilterBar';
@@ -13,7 +13,7 @@ export default function DashboardPage() {
     dateFrom: '', dateTo: '', shift: '', machineNo: '', search: '',
   });
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     setLoading(true);
     try {
       const apiFilters = { ...filters };
@@ -25,14 +25,14 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters, isAdmin, user?.id]);
 
-  useEffect(() => { fetchLogs(); }, [filters, isAdmin]);
+  useEffect(() => { fetchLogs(); }, [fetchLogs]);
 
   useEffect(() => {
     window.addEventListener('production-log-submitted', fetchLogs);
     return () => window.removeEventListener('production-log-submitted', fetchLogs);
-  }, [filters, isAdmin, user?.id]);
+  }, [fetchLogs]);
 
   // Summary stats
   const totalEntries = logs.length;

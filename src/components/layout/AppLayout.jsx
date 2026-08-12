@@ -15,9 +15,9 @@ export default function AppLayout() {
   const [showToolHandoverUpload, setShowToolHandoverUpload] = useState(false);
 
   return (
-    <div className="app-shell bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
+    <div className="app-shell bg-slate-50 dark:bg-slate-950 flex flex-col pt-[74px] transition-colors duration-300">
       {/* ── TOP HEADER ─────────────────────────────────────── */}
-      <header className="sticky top-0 z-20 bg-white/80 dark:bg-slate-950/75 backdrop-blur-2xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_3px_16px_rgba(15,23,42,.04)] transition-colors duration-300">
+      <header className="fixed inset-x-0 top-0 z-50 bg-white/80 dark:bg-slate-950/75 backdrop-blur-2xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_3px_16px_rgba(15,23,42,.04)] transition-colors duration-300">
         <div className="flex items-center justify-between px-4 lg:px-8 h-[74px]">
           {/* Left: hamburger + brand */}
           <div className="flex items-center gap-3">
@@ -28,8 +28,8 @@ export default function AppLayout() {
               <Menu size={20} />
             </button>
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-500 via-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 ring-1 ring-indigo-300/30">
-                <span className="font-extrabold text-white text-base tracking-wider">SV</span>
+              <div className="flex h-11 w-[116px] items-center rounded-2xl bg-white px-2 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-100 dark:ring-slate-700">
+                <img src="/sata-vikas-logo.svg" alt="Sata Vikas" className="h-8 w-full object-contain" />
               </div>
               <div className="hidden sm:block pl-1">
                 <h1 className="text-[15px] font-bold text-slate-900 dark:text-slate-100 leading-tight">Production &amp; TPM Tracker</h1>
@@ -97,7 +97,7 @@ export default function AppLayout() {
           onUpload={() => setShowUpload(true)}
           onToolHandoverUpload={() => setShowToolHandoverUpload(true)}
         />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-7 bg-slate-50/35 dark:bg-slate-950/25">
+        <main className="flex-1 overflow-y-auto p-4 lg:ml-[296px] lg:w-[calc(100%-296px)] lg:flex-none lg:p-7 bg-slate-50/35 dark:bg-slate-950/25">
           <Outlet />
         </main>
       </div>
