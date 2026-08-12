@@ -61,6 +61,7 @@ export const mockProductionLogs = [
     totalProduction: 675,
     uploadedBy: 'Suresh Yadav',
     uploadedById: '2',
+    uploadedAt: '2026-08-07T14:32:00.000Z',
   },
   {
     id: 1002,
@@ -104,6 +105,7 @@ export const mockProductionLogs = [
     totalProduction: 523,
     uploadedBy: 'Vikram Singh',
     uploadedById: '3',
+    uploadedAt: '2026-08-07T21:45:00.000Z',
   },
   {
     id: 1003,
@@ -143,6 +145,7 @@ export const mockProductionLogs = [
     totalProduction: 481,
     uploadedBy: 'Suresh Yadav',
     uploadedById: '2',
+    uploadedAt: '2026-08-06T10:15:00.000Z',
   },
   {
     id: 1004,
@@ -186,6 +189,7 @@ export const mockProductionLogs = [
     totalProduction: 606,
     uploadedBy: 'Anil Sharma',
     uploadedById: '4',
+    uploadedAt: '2026-08-06T20:50:00.000Z',
   },
   {
     id: 1005,
@@ -225,5 +229,6 @@ export const mockProductionLogs = [
     totalProduction: 527,
     uploadedBy: 'Vikram Singh',
     uploadedById: '3',
+    uploadedAt: '2026-08-05T16:05:00.000Z',
   },
 ];

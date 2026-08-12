@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { getProductionLogById, updateProductionLog } from '../services/api';
 import FormViewer from '../components/form-viewer/FormViewer';
-import { ArrowLeft, Printer, Download, Edit2, Save, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Printer, Download, Edit2, Save, CheckCircle, Clock } from 'lucide-react';
 
 export default function FormViewPage() {
   const { id } = useParams();
@@ -44,6 +44,21 @@ export default function FormViewPage() {
       console.error('Failed to update form:', err);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const formatUploadTime = (isoString) => {
+    if (!isoString) return '';
+    try {
+      const d = new Date(isoString);
+      if (isNaN(d.getTime())) return '';
+      return new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }).format(d);
+    } catch {
+      return '';
     }
   };
 
@@ -89,8 +104,23 @@ export default function FormViewPage() {
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              {data?.date} · Shift {data?.shift} · Machine <strong className="text-indigo-600 dark:text-indigo-400 font-mono">{data?.machineNo}</strong> · Uploaded by <strong className="text-slate-700 dark:text-slate-200">{data?.uploadedBy}</strong>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex flex-wrap items-center gap-1.5">
+              <span>{data?.date}</span>
+              <span>·</span>
+              <span>Shift {data?.shift}</span>
+              <span>·</span>
+              <span>Machine <strong className="text-indigo-600 dark:text-indigo-400 font-mono">{data?.machineNo}</strong></span>
+              {data?.uploadedAt && (
+                <>
+                  <span>·</span>
+                  <span className="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200">
+                    <Clock size={11} className="text-slate-400" />
+                    {formatUploadTime(data.uploadedAt)}
+                  </span>
+                </>
+              )}
+              <span>·</span>
+              <span>Uploaded by <strong className="text-slate-700 dark:text-slate-200">{data?.uploadedBy}</strong></span>
             </p>
           </div>
         </div>

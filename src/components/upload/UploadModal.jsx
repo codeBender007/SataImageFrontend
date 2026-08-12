@@ -23,6 +23,7 @@ export default function UploadModal({ onClose, onSubmitted }) {
       const extracted = await uploadFormImage(file);
       extracted.uploadedBy = user.fullName;
       extracted.uploadedById = String(user.id);
+      extracted.employeeId = extracted.employeeId || `EMP-${String(user.id).padStart(4, '0')}`;
       extracted.entryPersonName = user.fullName;
       setFormData(extracted);
       setStep('verify');
@@ -47,7 +48,11 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      await submitProductionLog(formData);
+      const payload = {
+        ...formData,
+        uploadedAt: new Date().toISOString()
+      };
+      await submitProductionLog(payload);
       onSubmitted?.();
     } catch (err) {
       console.error('Submit failed:', err);

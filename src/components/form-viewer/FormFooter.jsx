@@ -19,34 +19,25 @@ export default function FormFooter({ data, editable, onChange }) {
 
   return (
     <>
-      {/* Entry Person Name & Abnormalities */}
+      {/* The printed sheet keeps all footer details in one compact row. */}
       <tr>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={2}>
-          <div className="text-[10px]">
-            <div className="font-semibold text-slate-800 dark:text-slate-200">Entry person Name :</div>
-            <div className="text-[9px] text-slate-400 dark:text-slate-500 font-normal">(Write full name)</div>
+        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={4}>
+          <div className="flex items-center gap-1 text-[10px] whitespace-nowrap">
+            <span className="font-semibold text-slate-800 dark:text-slate-200">Entry Person Name:</span>
+            <Cell value={data.entryPersonName} field="entryPersonName" placeholder="Full name" />
           </div>
         </td>
-        <td className="form-cell" colSpan={3}>
-          <Cell value={data.entryPersonName} field="entryPersonName" placeholder="Full name" />
+        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={4}>
+          <div className="flex items-center gap-1 text-[10px] whitespace-nowrap">
+            <span className="font-semibold text-slate-800 dark:text-slate-200">Abnormality Parts - Tool Change:</span>
+            <Cell value={data.abnormalityToolChange} field="abnormalityToolChange" />
+          </div>
         </td>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 text-[10px] font-semibold text-slate-800 dark:text-slate-200" colSpan={3}>
-          Abnormality Parts - Tool change :
-        </td>
-        <td className="form-cell" colSpan={4}>
-          <Cell value={data.abnormalityToolChange} field="abnormalityToolChange" />
-        </td>
-      </tr>
-
-      {/* Other abnormality/Alarm */}
-      <tr>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={2}></td>
-        <td className="form-cell" colSpan={3}></td>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 text-[10px] font-semibold text-slate-800 dark:text-slate-200" colSpan={3}>
-          Other abnormality/Alarm :
-        </td>
-        <td className="form-cell" colSpan={4}>
-          <Cell value={data.otherAbnormality} field="otherAbnormality" />
+        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={4}>
+          <div className="flex items-center gap-1 text-[10px] whitespace-nowrap">
+            <span className="font-semibold text-slate-800 dark:text-slate-200">Other Abnormality/Alarm:</span>
+            <Cell value={data.otherAbnormality} field="otherAbnormality" />
+          </div>
         </td>
       </tr>
     </>

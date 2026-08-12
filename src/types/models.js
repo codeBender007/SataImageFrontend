@@ -11,6 +11,7 @@
  * @property {string} plan1 - plan for part 1
  * @property {string} plan2 - plan for part 2
  * @property {string} employeeNumbers - comma-separated
+ * @property {string} employeeId
  * @property {number} scheduledQuantity
  * @property {string} page
  * @property {number} totalProduction
@@ -121,6 +122,7 @@ export function createEmptyFormData() {
     plan1: '',
     plan2: '',
     employeeNumbers: '',
+    employeeId: '',
     scheduledQuantity: '',
     page: 'A',
     uph: '',

@@ -48,6 +48,8 @@ export default function ToolHandoverUploadModal({ onClose, onSubmitted }) {
       machineNo: firstMachine,
       uploadedBy: user?.fullName || 'Unknown user',
       uploadedById: String(user?.id || ''),
+      employeeId: `EMP-${String(user?.id || '').padStart(4, '0')}`,
+      uploadedAt: new Date().toISOString()
     });
     onSubmitted?.(saved);
   };
@@ -62,6 +64,7 @@ export default function ToolHandoverUploadModal({ onClose, onSubmitted }) {
               <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">Tool &amp; Shift Handover Form</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">Import the sheet photo, then verify its tool and handover records.</p>
             </div>
+        
           </div>
           <button onClick={onClose} className="rounded-xl p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200" aria-label="Close">
             <X size={18} />

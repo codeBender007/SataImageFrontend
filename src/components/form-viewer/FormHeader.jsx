@@ -26,7 +26,7 @@ export default function FormHeader({ data, editable, onChange }) {
       <tr>
         <td className="form-cell-header text-left px-2" colSpan={2}>
           <div className="flex items-center gap-1.5 mb-1">
-            <img src="/sata-vikas-logo.svg" alt="Logo" className="h-4 w-auto" />
+            <img src="/sata-vikas-logo-transparent.png" alt="Sata Vikas" className="h-4 w-auto object-contain" />
             <div className="text-[9px] leading-tight">
               <span className="text-slate-500">Page</span>{' '}
               <Cell value={data.page} field="page" width="20px" />
@@ -81,11 +81,15 @@ export default function FormHeader({ data, editable, onChange }) {
         </td>
       </tr>
 
-      {/* Employee number and part */}
+      {/* Employee ID, employee name and part */}
       <tr>
-        <td className="form-label-cell" colSpan={2}>Employee number :</td>
-        <td className="form-cell" colSpan={8}>
-          <Cell value={data.employeeNumbers} field="employeeNumbers" placeholder="E-XXXX, E-XXXX" />
+        <td className="form-label-cell" colSpan={2}>Employee ID :</td>
+        <td className="form-cell" colSpan={4}>
+          <Cell value={data.employeeId || data.employeeNumbers} field="employeeId" placeholder="EMP-XXXX" />
+        </td>
+        <td className="form-label-cell" colSpan={2}>Employee No. :</td>
+        <td className="form-cell" colSpan={2}>
+          <Cell value={data.employeeNumbers} field="employeeNumbers" placeholder="Employee no." />
         </td>
         <td className="form-cell text-[10px] text-slate-500" colSpan={1}>Part :</td>
         <td className="form-cell" colSpan={1}>

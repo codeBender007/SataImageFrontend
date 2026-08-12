@@ -6,6 +6,8 @@ export default function UserModal({ user, onClose, onSave }) {
   const [form, setForm] = useState({
     username: '',
     fullName: '',
+    email: '',
+    employeeId: '',
     password: '',
     role: 'employee',
     department: '',
@@ -18,6 +20,8 @@ export default function UserModal({ user, onClose, onSave }) {
       setForm({
         username: user.username || '',
         fullName: user.fullName || '',
+        email: user.email || '',
+        employeeId: user.employeeId || '',
         password: '',
         role: user.role || 'employee',
         department: user.department || '',
@@ -79,6 +83,8 @@ export default function UserModal({ user, onClose, onSave }) {
             />
           </div>
 
+          <div className="grid grid-cols-2 gap-3"><div><label className="label">Employee ID</label><input value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} className="input" placeholder="EMP-1001" required /></div><div><label className="label">Email</label><input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input" placeholder="name@satavikas.com" /></div></div>
+
           <div>
             <label className="label">{isEdit ? 'New Password (leave blank to keep)' : 'Password'}</label>
             <input
@@ -101,6 +107,7 @@ export default function UserModal({ user, onClose, onSave }) {
               >
                 <option value="employee">Employee</option>
                 <option value="admin">Admin</option>
+                <option value="supervisor">Supervisor</option>
               </select>
             </div>
             <div>

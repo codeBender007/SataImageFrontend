@@ -5,8 +5,8 @@ import FormFooter from './FormFooter';
 
 export default function FormViewer({ data, editable = false, onChange }) {
   return (
-    <div className="form-grid overflow-x-auto">
-      <table className="w-full min-w-[850px] border-collapse border-2 border-slate-500 bg-white">
+    <div className="form-grid w-full">
+      <table className="w-full table-fixed border-collapse border-2 border-slate-500 bg-white">
         <tbody>
           {/* Header Section */}
           <FormHeader data={data} editable={editable} onChange={onChange} />
