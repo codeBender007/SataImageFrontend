@@ -61,44 +61,49 @@ export default function TPMLossGrid({ data, editable, onChange }) {
       {/* Loss Rows grouped */}
       {groups.map((group) => {
         const colors = GROUP_COLORS[group.name] || GROUP_COLORS['Oth.Loss (OL)'];
-        return group.items.map((loss, itemIdx) => (
-          <tr key={loss.originalIdx}>
-            {/* Code cell */}
-            <td className={`form-cell text-center text-[9px] font-bold w-8 border-l-2 ${colors.border} ${colors.bg}`}>
-              {loss.code}
-            </td>
-            {/* Description cell */}
-            <td className={`form-label-cell text-[10px] ${colors.bg}`}>
-              <div className="flex items-center gap-1">
-                {itemIdx === 0 && (
-                  <span className={`${colors.label} text-[8px] px-1 py-0.5 rounded font-bold mr-1 whitespace-nowrap`}>
-                    {group.name}
-                  </span>
-                )}
-                <span className="truncate text-slate-800 dark:text-slate-200">{loss.description}</span>
-              </div>
-            </td>
-            {/* Hourly cells */}
-            {HR_KEYS.map(hr => (
-              <td key={hr} className={`form-cell ${colors.bg}`}>
-                {editable ? (
-                  <input
-                    type="text"
-                    value={loss.hourlyValues?.[hr] || ''}
-                    onChange={(e) => updateLossCell(loss.originalIdx, hr, e.target.value)}
-                    className="form-cell-input"
-                  />
-                ) : (
-                  <span className={`text-xs ${loss.hourlyValues?.[hr] ? 'font-bold text-red-600 dark:text-red-400' : 'text-slate-700 dark:text-slate-300'}`}>
-                    {loss.hourlyValues?.[hr] || ''}
-                  </span>
-                )}
+        return group.items.map((loss, itemIdx) => {
+          const hasData = HR_KEYS.some(hr => loss.hourlyValues?.[hr]);
+          if (data?.formType === 'tool-handover' && !hasData) return null;
+          
+          return (
+            <tr key={loss.originalIdx}>
+              {/* Code cell */}
+              <td className={`form-cell text-center text-[9px] font-bold w-8 border-l-2 ${colors.border} ${colors.bg}`}>
+                {loss.code}
               </td>
-            ))}
-            {/* No total column for individual rows */}
-            <td className={`form-cell ${colors.bg}`}></td>
-          </tr>
-        ));
+              {/* Description cell */}
+              <td className={`form-label-cell text-[10px] ${colors.bg}`}>
+                <div className="flex items-center gap-1">
+                  {itemIdx === 0 && (
+                    <span className={`${colors.label} text-[8px] px-1 py-0.5 rounded font-bold mr-1 whitespace-nowrap`}>
+                      {group.name}
+                    </span>
+                  )}
+                  <span className="truncate text-slate-800 dark:text-slate-200">{loss.description}</span>
+                </div>
+              </td>
+              {/* Hourly cells */}
+              {HR_KEYS.map(hr => (
+                <td key={hr} className={`form-cell ${colors.bg}`}>
+                  {editable ? (
+                    <input
+                      type="text"
+                      value={loss.hourlyValues?.[hr] || ''}
+                      onChange={(e) => updateLossCell(loss.originalIdx, hr, e.target.value)}
+                      className="form-cell-input"
+                    />
+                  ) : (
+                    <span className={`text-xs ${loss.hourlyValues?.[hr] ? 'font-bold text-red-600 dark:text-red-400' : 'text-slate-700 dark:text-slate-300'}`}>
+                      {loss.hourlyValues?.[hr] || ''}
+                    </span>
+                  )}
+                </td>
+              ))}
+              {/* No total column for individual rows */}
+              <td className={`form-cell ${colors.bg}`}></td>
+            </tr>
+          );
+        });
       })}
 
       {/* TOTAL LOSSES ROW */}

@@ -36,6 +36,8 @@ function HourRow({ label, sublabel, dataKey, data, editable, onChange, highlight
 }
 
 export default function ProductionGrid({ data, editable, onChange }) {
+  const isToolHandover = data?.formType === 'tool-handover';
+
   const update = (field, value) => {
     if (onChange) onChange({ ...data, [field]: value });
   };
@@ -100,37 +102,45 @@ export default function ProductionGrid({ data, editable, onChange }) {
       </tr>
 
       <HourRow label="Actual Production - Production :" dataKey="part1Production" data={data} editable={editable} onChange={onChange} highlight />
-      <HourRow label="Casting Rejection for part 1" sublabel="" dataKey="part1CastingRej" data={data} editable={editable} onChange={onChange} />
-      <HourRow label="Machining Rejection for part 1" sublabel="" dataKey="part1MachiningRej" data={data} editable={editable} onChange={onChange} />
-      <HourRow label="Unprocessed casting rejection" sublabel="" dataKey="part1UnprocessedRej" data={data} editable={editable} onChange={onChange} />
+      {!isToolHandover && (
+        <>
+          <HourRow label="Casting Rejection for part 1" sublabel="" dataKey="part1CastingRej" data={data} editable={editable} onChange={onChange} />
+          <HourRow label="Machining Rejection for part 1" sublabel="" dataKey="part1MachiningRej" data={data} editable={editable} onChange={onChange} />
+          <HourRow label="Unprocessed casting rejection" sublabel="" dataKey="part1UnprocessedRej" data={data} editable={editable} onChange={onChange} />
+        </>
+      )}
 
       {/* ── Part No 2 ──────────────────────────────────── */}
-      <tr>
-        <td className="form-label-cell bg-emerald-100/80 dark:bg-emerald-950/80 font-bold text-emerald-900 dark:text-emerald-200 text-[10px]" colSpan={2}>
-          <div className="flex items-center gap-1">
-            Part No2:
-            {editable ? (
-              <input type="text" value={data.partNo2 || ''} onChange={(e) => update('partNo2', e.target.value)}
-                className="form-cell-input font-bold w-20" />
-            ) : (
-              <span className="ml-1 font-bold">{data.partNo2 || '—'}</span>
-            )}
-            <span className="text-slate-500 dark:text-slate-400 ml-2">Plan:</span>
-            {editable ? (
-              <input type="text" value={data.plan2 || ''} onChange={(e) => update('plan2', e.target.value)}
-                className="form-cell-input w-12" />
-            ) : (
-              <span className="ml-1">{data.plan2 || ''}</span>
-            )}
-          </div>
-        </td>
-        <td className="form-cell" colSpan={10}></td>
-      </tr>
+      {!isToolHandover && (
+        <>
+          <tr>
+            <td className="form-label-cell bg-emerald-100/80 dark:bg-emerald-950/80 font-bold text-emerald-900 dark:text-emerald-200 text-[10px]" colSpan={2}>
+              <div className="flex items-center gap-1">
+                Part No2:
+                {editable ? (
+                  <input type="text" value={data.partNo2 || ''} onChange={(e) => update('partNo2', e.target.value)}
+                    className="form-cell-input font-bold w-20" />
+                ) : (
+                  <span className="ml-1 font-bold">{data.partNo2 || '—'}</span>
+                )}
+                <span className="text-slate-500 dark:text-slate-400 ml-2">Plan:</span>
+                {editable ? (
+                  <input type="text" value={data.plan2 || ''} onChange={(e) => update('plan2', e.target.value)}
+                    className="form-cell-input w-12" />
+                ) : (
+                  <span className="ml-1">{data.plan2 || ''}</span>
+                )}
+              </div>
+            </td>
+            <td className="form-cell" colSpan={10}></td>
+          </tr>
 
-      <HourRow label="Actual Production - Production :" dataKey="part2Production" data={data} editable={editable} onChange={onChange} highlight />
-      <HourRow label="Casting Rejection for part 2" dataKey="part2CastingRej" data={data} editable={editable} onChange={onChange} />
-      <HourRow label="Machining Rejection for part 2" dataKey="part2MachiningRej" data={data} editable={editable} onChange={onChange} />
-      <HourRow label="Unprocessed casting rejection" dataKey="part2UnprocessedRej" data={data} editable={editable} onChange={onChange} />
+          <HourRow label="Actual Production - Production :" dataKey="part2Production" data={data} editable={editable} onChange={onChange} highlight />
+          <HourRow label="Casting Rejection for part 2" dataKey="part2CastingRej" data={data} editable={editable} onChange={onChange} />
+          <HourRow label="Machining Rejection for part 2" dataKey="part2MachiningRej" data={data} editable={editable} onChange={onChange} />
+          <HourRow label="Unprocessed casting rejection" dataKey="part2UnprocessedRej" data={data} editable={editable} onChange={onChange} />
+        </>
+      )}
 
       {/* ── Middle Row: Supervisor / Shift In-charge / PDI OK ── */}
       <tr>

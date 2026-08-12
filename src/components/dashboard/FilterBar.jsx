@@ -117,7 +117,7 @@ export default function FilterBar({ filters, setFilters }) {
               type="text"
               value={filters.search}
               onChange={(e) => updateFilter('search', e.target.value)}
-              placeholder="Name, Part, Machine..."
+              placeholder="Search all entry details..."
               className="input pl-8 !py-1.5 text-xs dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
             />
           </div>

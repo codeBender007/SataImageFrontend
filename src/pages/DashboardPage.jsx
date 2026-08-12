@@ -65,88 +65,9 @@ export default function DashboardPage() {
         <div className="chart-art" aria-hidden="true"><div className="chart-donut" /><div className="chart-bars"><span/><span/><span/><span/><span/></div></div>
       </div>
 
-      {/* KPI Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Total Entries */}
-        <div className="kpi-card surface-glow">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Entries</span>
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-              <ClipboardList size={20} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">{totalEntries}</span>
-            <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800">
-              Sheets
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Submitted across all shifts</p>
-          <div className="metric-sparkline metric-sparkline-indigo" />
-        </div>
-
-        {/* Card 2: Total Production */}
-        <div className="kpi-card kpi-card-emerald surface-glow">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Output</span>
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <PackageCheck size={20} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-emerald-700 dark:text-emerald-400">{totalProd.toLocaleString()}</span>
-            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
-              <TrendingUp size={14} /> pcs
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Verified manufactured parts</p>
-          <div className="metric-sparkline metric-sparkline-emerald" />
-        </div>
-
-        {/* Card 3: Total Downtime / Loss */}
-        <div className="kpi-card kpi-card-amber surface-glow">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total TPM Loss</span>
-            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600 dark:text-amber-400">
-              <Clock size={20} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className={`text-3xl font-extrabold ${totalLoss > 60 ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'}`}>
-              {totalLoss}
-            </span>
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">mins</span>
-          </div>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-2 flex items-center gap-1">
-            {totalLoss > 60 && <AlertTriangle size={12} className="text-red-500" />}
-            Cumulative downtime recorded
-          </p>
-          <div className="metric-sparkline metric-sparkline-amber" />
-        </div>
-
-        {/* Card 4: Efficiency */}
-        <div className="kpi-card kpi-card-sky surface-glow">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Efficiency</span>
-            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-blue-600 dark:text-blue-400">
-              <Activity size={20} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">{efficiency}%</span>
-            <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-              Optimal
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Target vs Actual Output ratio</p>
-          <div className="metric-sparkline metric-sparkline-sky" />
-        </div>
-      </div>
-
       {/* Filters (Admin & Search) */}
       <FilterBar filters={filters} setFilters={setFilters} />
 
-      {/* Main Entry Table */}
       <EntryTable logs={logs} loading={loading} />
 
     </div>

@@ -10,6 +10,50 @@ const USE_MOCK_FALLBACK = true;
 // Simulate network delay for mock mode
 const delay = (ms = 500) => new Promise(resolve => setTimeout(resolve, ms));
 
+const searchableText = (value) => {
+  if (value === null || value === undefined) return '';
+  if (Array.isArray(value)) return value.map(searchableText).join(' ');
+  if (typeof value === 'object') return Object.values(value).map(searchableText).join(' ');
+  return String(value);
+};
+
+const getSingleEmployeeId = (log) => {
+  const value = log.employeeId || log.employeeNumbers || '';
+  return String(value).split(',')[0].trim();
+};
+
+const UPLOAD_ACTIVITY_STORAGE_KEY = 'sata_vikas_employee_form_upload_activity';
+
+const notifyUploadActivity = (entry) => {
+  const activity = {
+    id: `${entry.formType || 'production'}-${entry.id}`,
+    logId: entry.id,
+    formName: entry.formType === 'tool-handover' ? 'Tool & Handover Form' : 'Production Sheet',
+    employeeName: entry.uploadedBy || entry.entryPersonName || 'Unknown employee',
+    employeeId: getSingleEmployeeId(entry) || '—',
+    uploadedAt: new Date().toISOString(),
+  };
+
+  try {
+    const existing = JSON.parse(localStorage.getItem(UPLOAD_ACTIVITY_STORAGE_KEY) || '[]');
+    if (!existing.some(item => item.id === activity.id)) {
+      localStorage.setItem(UPLOAD_ACTIVITY_STORAGE_KEY, JSON.stringify([activity, ...existing]));
+      window.dispatchEvent(new Event('form-upload-activity-recorded'));
+    }
+  } catch (error) {
+    console.warn('Unable to save form upload activity:', error);
+  }
+};
+
+export function getFormUploadActivities() {
+  try {
+    const activities = JSON.parse(localStorage.getItem(UPLOAD_ACTIVITY_STORAGE_KEY) || '[]');
+    return activities.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+  } catch {
+    return [];
+  }
+}
+
 // ─── AUTH ────────────────────────────────────────────────────
 export async function apiLogin(username, password) {
   if (!USE_MOCK_FALLBACK) {
@@ -51,7 +95,7 @@ export async function getProductionLogs(filters = {}) {
   }
 
   await delay(400);
-  let logs = [...mockProductionLogs];
+  let logs = mockProductionLogs.map(log => ({ ...log, employeeId: getSingleEmployeeId(log) }));
 
   if (filters.userId) {
     logs = logs.filter(l => l.uploadedById === String(filters.userId));
@@ -69,12 +113,8 @@ export async function getProductionLogs(filters = {}) {
     logs = logs.filter(l => l.machineNo.toLowerCase().includes(filters.machineNo.toLowerCase()));
   }
   if (filters.search) {
-    const s = filters.search.toLowerCase();
-    logs = logs.filter(l =>
-      l.uploadedBy.toLowerCase().includes(s) ||
-      l.partNo1.toLowerCase().includes(s) ||
-      l.machineNo.toLowerCase().includes(s)
-    );
+    const query = filters.search.trim().toLowerCase();
+    logs = logs.filter(log => searchableText(log).toLowerCase().includes(query));
   }
 
   return logs;
@@ -100,6 +140,7 @@ export async function submitProductionLog(data) {
   if (!USE_MOCK_FALLBACK) {
     try {
       const res = await apiClient.post('/production-logs', data);
+      notifyUploadActivity(res.data);
       return res.data;
     } catch (err) {
       console.warn('Backend API submit failed:', err);
@@ -112,6 +153,7 @@ export async function submitProductionLog(data) {
     id: 1000 + mockProductionLogs.length + 1,
   };
   mockProductionLogs.unshift(newLog);
+  notifyUploadActivity(newLog);
   return newLog;
 }
 
@@ -119,6 +161,7 @@ export async function submitProductionLog(data) {
 export async function submitToolHandoverForm(data) {
   if (!USE_MOCK_FALLBACK) {
     const res = await apiClient.post('/tool-handover-forms', data);
+    notifyUploadActivity(res.data);
     return res.data;
   }
 
@@ -134,6 +177,7 @@ export async function submitToolHandoverForm(data) {
     totalLossMin: 0,
   };
   mockProductionLogs.unshift(newForm);
+  notifyUploadActivity(newForm);
   return newForm;
 }
 
@@ -179,6 +223,7 @@ export async function uploadFormImage(file) {
   mockExtracted.operationNumber = '10';
   mockExtracted.partNo1 = 'SVP-4521';
   mockExtracted.employeeNumbers = 'E-1012';
+  mockExtracted.employeeId = 'EMP-1012';
   mockExtracted.scheduledQuantity = '500';
   mockExtracted.uph = '55';
   mockExtracted.part1Production = {
@@ -205,6 +250,25 @@ export async function uploadFormImage(file) {
 }
 
 // ─── USERS MANAGEMENT ────────────────────────────────────────
+const USERS_STORAGE_KEY = 'sata_vikas_users';
+
+const readUsers = () => {
+  try {
+    const savedUsers = localStorage.getItem(USERS_STORAGE_KEY);
+    return savedUsers ? JSON.parse(savedUsers) : [...mockUsers];
+  } catch {
+    return [...mockUsers];
+  }
+};
+
+const saveUsers = (users) => {
+  try {
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  } catch (error) {
+    console.warn('Unable to save user changes:', error);
+  }
+};
+
 export async function getUsers() {
   if (!USE_MOCK_FALLBACK) {
     try {
@@ -216,7 +280,7 @@ export async function getUsers() {
   }
 
   await delay(400);
-  return [...mockUsers];
+  return readUsers();
 }
 
 export async function createUser(userData) {
@@ -236,7 +300,9 @@ export async function createUser(userData) {
     createdDate: new Date().toISOString().split('T')[0],
     status: 'active',
   };
-  mockUsers.push(newUser);
+  const users = readUsers();
+  users.push(newUser);
+  saveUsers(users);
   return newUser;
 }
 
@@ -251,10 +317,12 @@ export async function updateUser(id, userData) {
   }
 
   await delay(600);
-  const idx = mockUsers.findIndex(u => u.id === id);
+  const users = readUsers();
+  const idx = users.findIndex(u => String(u.id) === String(id));
   if (idx === -1) throw new Error('User not found');
-  mockUsers[idx] = { ...mockUsers[idx], ...userData };
-  return mockUsers[idx];
+  users[idx] = { ...users[idx], ...userData };
+  saveUsers(users);
+  return users[idx];
 }
 
 export async function deleteUser(id) {
@@ -268,8 +336,10 @@ export async function deleteUser(id) {
   }
 
   await delay(400);
-  const idx = mockUsers.findIndex(u => u.id === id);
+  const users = readUsers();
+  const idx = users.findIndex(u => String(u.id) === String(id));
   if (idx === -1) throw new Error('User not found');
-  mockUsers.splice(idx, 1);
+  users.splice(idx, 1);
+  saveUsers(users);
   return { success: true };
 }
