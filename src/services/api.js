@@ -68,16 +68,16 @@ export async function apiLogin(username, password) {
 
   await delay(800);
   if (!username || !password) throw new Error('Username and password are required');
-  const foundUser = mockUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
+  const normalizedUsername = username.trim().toLowerCase();
+  const foundUser = mockUsers.find(u => u.username.toLowerCase() === normalizedUsername);
   if (foundUser) {
     return { ...foundUser, token: 'mock-jwt-' + Date.now() };
   }
-  const isAdminUser = username.toLowerCase().includes('admin') || username.toLowerCase().includes('supervisor');
   return {
     id: Date.now(),
     username,
     fullName: username,
-    role: isAdminUser ? 'admin' : 'employee',
+    role: 'employee',
     department: 'Production',
     token: 'mock-jwt-' + Date.now(),
   };

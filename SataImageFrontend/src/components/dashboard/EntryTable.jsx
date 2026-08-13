@@ -9,7 +9,7 @@ export default function EntryTable({ logs, loading }) {
       <div className="table-container p-12 text-center text-slate-500 text-sm">
         <div className="w-10 h-10 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin mx-auto mb-3" />
         Loading production entries...
-      </div>
+      </div> 
     );
   }
 
@@ -89,7 +89,7 @@ export default function EntryTable({ logs, loading }) {
               </th>
               <th className="table-header">Date</th>
               <th className="table-header">Shift</th>
-              <th className="table-header">Machine No</th>
+              <th className="table-header">Machine No.</th>
               <th className="table-header">QA Cell</th>
               <th className="table-header">Part No</th>
               <th className="table-header">
@@ -127,7 +127,7 @@ export default function EntryTable({ logs, loading }) {
                     <span className="font-medium">{log.partNo1}</span>
                     {log.partNo2 && (
                       <span className="text-slate-400 ml-1">/ {log.partNo2}</span>
-                    )}  
+                    )}
                   </div>
                 </td>
                 <td className="table-cell">

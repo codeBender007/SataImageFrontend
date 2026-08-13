@@ -9,6 +9,7 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const fileRef = useRef(null);
   const [step, setStep] = useState('upload'); // 'upload' | 'processing' | 'verify'
   const [imageUrl, setImageUrl] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -16,14 +17,14 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const handleFile = async (file) => {
     if (!file) return;
     const url = URL.createObjectURL(file);
+    setImageFile(file);
     setImageUrl(url);
     setStep('processing');
-
+// 
     try {
       const extracted = await uploadFormImage(file);
       extracted.uploadedBy = user.fullName;
       extracted.uploadedById = String(user.id);
-      extracted.employeeId = extracted.employeeId || `EMP-${String(user.id).padStart(4, '0')}`;
       extracted.entryPersonName = user.fullName;
       setFormData(extracted);
       setStep('verify');
@@ -42,17 +43,14 @@ export default function UploadModal({ onClose, onSubmitted }) {
   const handleReupload = () => {
     setStep('upload');
     setImageUrl(null);
+    setImageFile(null);
     setFormData(null);
   };
 
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const payload = {
-        ...formData,
-        uploadedAt: new Date().toISOString()
-      };
-      await submitProductionLog(payload);
+      await submitProductionLog(formData);
       onSubmitted?.();
     } catch (err) {
       console.error('Submit failed:', err);
@@ -60,7 +58,6 @@ export default function UploadModal({ onClose, onSubmitted }) {
       setSubmitting(false);
     }
   };
-
   return (
     <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget && step !== 'processing') onClose(); }}>
       <div className={`modal-content flex flex-col ${step === 'verify' ? 'w-[95vw] h-[92vh] max-w-full' : 'w-full max-w-lg'}`}>

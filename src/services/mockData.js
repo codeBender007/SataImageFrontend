@@ -2,11 +2,11 @@ import { TPM_LOSS_CATEGORIES } from '../types/models';
 
 // ─── MOCK USERS ─────────────────────────────────────────────
 export const mockUsers = [
-  { id: 1, username: 'admin', fullName: 'Rajesh Kumar', role: 'admin', department: 'Production', createdDate: '2025-01-15', status: 'active' },
-  { id: 2, username: 'operator1', fullName: 'Suresh Yadav', role: 'employee', department: 'QA Cell A', createdDate: '2025-03-10', status: 'active' },
-  { id: 3, username: 'operator2', fullName: 'Vikram Singh', role: 'employee', department: 'QA Cell B', createdDate: '2025-04-20', status: 'active' },
-  { id: 4, username: 'operator3', fullName: 'Anil Sharma', role: 'employee', department: 'QA Cell A', createdDate: '2025-06-01', status: 'inactive' },
-  { id: 5, username: 'supervisor1', fullName: 'Mahesh Gupta', role: 'admin', department: 'Production', createdDate: '2025-02-08', status: 'active' },
+  { id: 1, username: 'admin', email: 'rajesh.kumar@satavikas.com', fullName: 'Rajesh Kumar', role: 'admin', department: 'Production', createdDate: '2025-01-15', status: 'active' },
+  { id: 2, username: 'operator1', email: 'suresh.yadav@satavikas.com', fullName: 'Suresh Yadav', role: 'employee', department: 'QA Cell A', createdDate: '2025-03-10', status: 'active' },
+  { id: 3, username: 'operator2', email: 'vikram.singh@satavikas.com', fullName: 'Vikram Singh', role: 'employee', department: 'QA Cell B', createdDate: '2025-04-20', status: 'active' },
+  { id: 4, username: 'operator3', email: 'anil.sharma@satavikas.com', fullName: 'Anil Sharma', role: 'employee', department: 'QA Cell A', createdDate: '2025-06-01', status: 'inactive' },
+  { id: 5, username: 'supervisor1', email: 'mahesh.gupta@satavikas.com', fullName: 'Mahesh Gupta', role: 'admin', department: 'Production', createdDate: '2025-02-08', status: 'active' },
 ];
 
 // Helper: generate hourly data
