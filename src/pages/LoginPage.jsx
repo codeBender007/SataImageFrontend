@@ -27,7 +27,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-const num =54
+
   return (
     
     <div  className="relative flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-100 p-4 transition-colors duration-300 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
