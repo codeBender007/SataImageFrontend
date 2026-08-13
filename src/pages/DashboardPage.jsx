@@ -55,7 +55,7 @@ export default function DashboardPage() {
             <div className="p-2 rounded-xl bg-indigo-100 dark:bg-white/10 text-indigo-600 dark:text-white">
               <ClipboardList size={22} />
             </div>
-            {isAdmin ? 'Production & TPM Dashboard' : 'My Production Logs'}
+            {isAdmin ? '' : 'My Production Logs'}
           </h2>
           <p className="text-sm text-slate-500 dark:text-indigo-100/80 mt-2">
             {isAdmin ? 'Real-time overview of shop-floor forms, output, and TPM losses' : 'Track your uploaded production sheets and hourly output'}

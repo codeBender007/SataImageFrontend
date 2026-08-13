@@ -27,15 +27,6 @@ export default function RecentEntriesModal({ onClose }) {
       }
     }
     loadRecent();
-
-    const handleNewUpload = () => loadRecent();
-    window.addEventListener('production-log-submitted', handleNewUpload);
-    window.addEventListener('form-upload-activity-recorded', handleNewUpload);
-    
-    return () => {
-      window.removeEventListener('production-log-submitted', handleNewUpload);
-      window.removeEventListener('form-upload-activity-recorded', handleNewUpload);
-    };
   }, []);
 
   const handleView = (log) => {
@@ -177,12 +168,7 @@ export default function RecentEntriesModal({ onClose }) {
 
         {/* Modal Footer */}
         <div className="p-4 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
-          <button
-            onClick={() => { onClose(); navigate('/dashboard'); }}
-            className="px-4 py-2 rounded-xl text-indigo-600 dark:text-indigo-400 text-xs font-bold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors cursor-pointer"
-          >
-            View All Entries
-          </button>
+          <p className="text-[11px] text-slate-400 dark:text-slate-500">Showing 5 most recent submissions</p>
           <button
             onClick={onClose}
             className="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-pointer"

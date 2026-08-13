@@ -24,7 +24,7 @@ export default function ToolHandoverViewPage() {
   }, [id]);
 
   if (data === null) return <div className="flex min-h-[60vh] items-center justify-center text-sm text-slate-500">Loading form…</div>;
-  if (!data) return <div className="card mx-auto max-w-md p-8 text-center"><p className="font-semibold text-red-600">Form not found</p><button onClick={() => navigate('/dashboard')} className="btn-primary mt-4">Back to Dashboard</button></div>;
+  if (!data) return <div className="card mx-auto max-w-md p-8 text-center"><p className="font-semibold text-red-600">Form not found</p><button onClick={() => navigate('/fop-record')} className="btn-primary mt-4">Back to FOP Records</button></div>;
 
   const updateRecord = (index, field, value) => setData(current => {
     const existing = current.records || [];
@@ -51,7 +51,7 @@ export default function ToolHandoverViewPage() {
   return (
     <div className="page-enter mx-auto max-w-7xl space-y-4">
       <div className="card flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5">
-        <div className="flex items-center gap-3"><button onClick={() => navigate('/dashboard')} className="btn-ghost !px-2.5" title="Back"><ArrowLeft size={20} /></button><div><h2 className="page-heading text-lg font-bold text-slate-900 dark:text-slate-100">Tool &amp; Handover Form #{id}</h2><p className="text-xs text-slate-500 dark:text-slate-400">{data.date} · Submitted by {data.uploadedBy}</p></div></div>
+        <div className="flex items-center gap-3"><button onClick={() => navigate('/fop-record')} className="btn-ghost !px-2.5" title="Back to FOP records"><ArrowLeft size={20} /></button><div><h2 className="page-heading text-lg font-bold text-slate-900 dark:text-slate-100">First Operation Part (FOP) Record #{id}</h2><p className="text-xs text-slate-500 dark:text-slate-400">{data.date} · Submitted by {data.uploadedBy}</p></div></div>
         <div className="flex gap-2">
           <button onClick={editing ? cancelEdit : () => setEditing(true)} className={`btn-secondary text-xs ${editing ? 'border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : ''}`}><Edit2 size={15} /> {editing ? 'Cancel Edit' : 'Edit Form'}</button>
           {editing && <button onClick={save} disabled={saving} className="btn-success text-xs"><Save size={15} /> {saving ? 'Saving…' : 'Save Changes'}</button>}
