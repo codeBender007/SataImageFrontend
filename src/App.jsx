@@ -9,6 +9,8 @@ import DashboardPage from './pages/DashboardPage';
 import FormViewPage from './pages/FormViewPage';
 import UsersPage from './pages/UsersPage';
 import ToolHandoverViewPage from './pages/ToolHandoverViewPage';
+import FOPRecordPage from './pages/FOPRecordPage';
+import HourlyProductionMonitoringPage from './pages/HourlyProductionMonitoringPage';
 
 export default function App() {
   return (
@@ -28,6 +30,8 @@ export default function App() {
                 </ProtectedRoute>
               }>
                 <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/hourly-production-monitoring" element={<HourlyProductionMonitoringPage />} />
+                <Route path="/fop-record" element={<FOPRecordPage />} />
                 <Route path="/form/:id" element={<FormViewPage />} />
                 <Route path="/tool-handover/:id" element={<ToolHandoverViewPage />} />
                 <Route path="/users" element={
