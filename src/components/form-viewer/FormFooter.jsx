@@ -19,34 +19,25 @@ export default function FormFooter({ data, editable, onChange }) {
 
   return (
     <>
-      {/* Entry Person Name & Abnormalities */}
+      {/* The original paper form has one final row with all three notes. */}
       <tr>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={2}>
-          <div className="text-[10px]">
-            <div className="font-semibold text-slate-800 dark:text-slate-200">Entry person Name :</div>
-            <div className="text-[9px] text-slate-400 dark:text-slate-500 font-normal">(Write full name)</div>
+        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 px-1.5 py-1" colSpan={4}>
+          <div className="flex min-w-0 items-center gap-1 text-[10px] text-slate-800 dark:text-slate-200">
+            <span className="shrink-0 font-semibold">Entry person Name :</span>
+            <span className="min-w-0 flex-1"><Cell value={data.entryPersonName} field="entryPersonName" placeholder="Write full name" /></span>
           </div>
         </td>
-        <td className="form-cell" colSpan={3}>
-          <Cell value={data.entryPersonName} field="entryPersonName" placeholder="Full name" />
+        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 px-1.5 py-1" colSpan={4}>
+          <div className="flex min-w-0 items-center gap-1 text-[10px] text-slate-800 dark:text-slate-200">
+            <span className="shrink-0 font-semibold">Abnormality Parts - Tool change :</span>
+            <span className="min-w-0 flex-1"><Cell value={data.abnormalityToolChange} field="abnormalityToolChange" /></span>
+          </div>
         </td>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 text-[10px] font-semibold text-slate-800 dark:text-slate-200" colSpan={3}>
-          Abnormality Parts - Tool change :
-        </td>
-        <td className="form-cell" colSpan={4}>
-          <Cell value={data.abnormalityToolChange} field="abnormalityToolChange" />
-        </td>
-      </tr>
-
-      {/* Other abnormality/Alarm */}
-      <tr>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800" colSpan={2}></td>
-        <td className="form-cell" colSpan={3}></td>
-        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 text-[10px] font-semibold text-slate-800 dark:text-slate-200" colSpan={3}>
-          Other abnormality/Alarm :
-        </td>
-        <td className="form-cell" colSpan={4}>
-          <Cell value={data.otherAbnormality} field="otherAbnormality" />
+        <td className="form-label-cell bg-slate-100 dark:bg-slate-800 px-1.5 py-1" colSpan={4}>
+          <div className="flex min-w-0 items-center gap-1 text-[10px] text-slate-800 dark:text-slate-200">
+            <span className="shrink-0 font-semibold">Other abnormality/Alarm :</span>
+            <span className="min-w-0 flex-1"><Cell value={data.otherAbnormality} field="otherAbnormality" /></span>
+          </div>
         </td>
       </tr>
     </>
