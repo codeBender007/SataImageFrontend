@@ -59,7 +59,7 @@ export default function ToolHandoverViewPage() {
         </div>
       </div>
       {editing && <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">Form Edit Mode Active: update the cells, then select <strong>Save Changes</strong>.</div>}
-      <div className="card overflow-hidden"><ToolHandoverSheet records={data.records || []} details={data.details || {}} onRecordChange={updateRecord} onDetailsChange={updateDetail} readOnly={!editing} /></div>
+      <div className="card overflow-hidden"><ToolHandoverSheet records={data.records || []} details={data.details || {}} onRecordChange={updateRecord} onDetailsChange={updateDetail} onSubmit={save} readOnly={!editing} /></div>
     </div>
   );
 }

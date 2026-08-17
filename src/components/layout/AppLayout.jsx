@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import Sidebar from './Sidebar';
 import UploadModal from '../upload/UploadModal';
 import ToolHandoverUploadModal from '../upload/ToolHandoverUploadModal';
-import { Menu, LogOut, Shield, User, Sun, Moon, Bell } from 'lucide-react';
+import { Menu, Sun, Moon, Bell } from 'lucide-react';
 
 export default function AppLayout() {
-  const { user, logout, isAdmin } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
@@ -38,7 +36,7 @@ export default function AppLayout() {
             </div>
           </div>
 
-          {/* Right: theme toggle + user info + logout */}
+          {/* Right: notifications and theme toggle */}
           <div className="flex items-center gap-3">
             <button className="hidden sm:grid relative h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:-translate-y-0.5 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300" title="Notifications">
               <Bell size={17} />
@@ -61,29 +59,6 @@ export default function AppLayout() {
                   <span className="hidden md:inline text-xs font-semibold text-slate-700">Dark</span>
                 </>
               )}
-            </button>
-
-            {/* User Profile Pill */}
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700/80 shadow-sm">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600 to-violet-700 flex items-center justify-center text-white shadow-sm">
-                {isAdmin ? <Shield size={13} /> : <User size={13} />}
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 leading-tight">{user?.fullName}</p>
-                <p className="text-[10px] text-slate-400 dark:text-slate-400 capitalize">{user?.role}</p>
-              </div>
-            </div>
-
-            <span className={isAdmin ? 'badge-admin' : 'badge-employee'}>
-              {isAdmin ? 'Admin' : 'Employee'}
-            </span>
-
-            <button
-              onClick={logout}
-              className="p-2.5 rounded-xl text-slate-400 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 dark:hover:text-red-400 transition-all duration-200 cursor-pointer"
-              title="Logout"
-            >
-              <LogOut size={18} />
             </button>
           </div>
         </div>
